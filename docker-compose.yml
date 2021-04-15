@@ -1,0 +1,129 @@
+version: "3.9"
+services:
+
+  web:
+    build: .
+    container_name: user-interface
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/code
+    environment:
+      FLASK_ENV: development
+  
+  rstudio:
+    image: "rocker/rstudio"
+    container_name: rstudio
+    ports:
+      - "8787:8787"
+    environment:
+      - DISABLE_AUTH=true
+
+  hadoop:
+    image: "harisekhon/hadoop"
+    container_name: hadoop
+    ports:
+      - "2202:22"
+      - "2181:2181"
+      - "39534:39534"
+      - "9001:9000"
+      - "5070:5070"
+      - "5010:5010"
+      - "5020:5020"
+      - "8030:8030"
+      - "8031:8031"
+      - "8032:8032"
+      - "8033:8033"
+      - "8088:8088"
+      - "8040:8040"
+      - "8042:8042"
+      - "13562:13562"
+      - "47784:47784"
+      - "10020:10020"
+      - "19888:19888"
+
+  spyder:
+    image: "compdatasci/spyder-desktop"
+    container_name: spyder
+    ports:
+     - "6080:6080"
+    environment:
+      - PASSWORD=spyder
+      
+  spark:
+    image: "bitnami/spark"
+    container_name: spark
+    ports:
+      - "8081:8081"
+      
+  #ibm-sas:
+    # using website
+
+  #tableau:
+    # using website
+
+  git:
+    image: "madisonhaugh/git:git"
+    container_name: git
+    ports:
+      - "3000:3000"
+   
+  sonar-qube:
+    image: "sonarqube"
+    container_name: sonar-qube
+    ports:
+      - "5008:5008"
+    networks:
+      - sonarnetwork
+
+  sonar-scanner:
+    image: "newtmitch/sonar-scanner"
+    restart: on-failure
+    volumes:
+      - ./sample:/usr/src
+    networks:
+      - sonarnetwork
+
+  networks:
+    sonarnetwork:
+
+  jupyter:
+    image: "jupyter/base-notebook"
+    container_name: jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/code
+    environment:
+      - JUPYTER_TOKEN=jupyter
+      
+  tensorflow:
+    image: "tensorflow/tensorflow"
+    container_name: tensorflow
+    ports:
+      - "8889:8889"
+    environment:
+      - JUPYTER_TOKEN=tensorflow
+      
+  orange:
+    image: "acopar/orange-docker"
+    container_name: orange
+    ports:
+      - "5901:5901"
+      - "6901:6901"
+    environment:
+      - PASSWORD=orange
+      
+  markdown:
+    image: "v4tech/markdown-editor"
+    container_name: markdown
+    ports:
+      - "12345:80"
+      
+  vs-code:
+    image: "codercom/code-server"
+    container_name: vs-code
+    ports:
+        - "8080:8080"
+    environment:
+      - PASSWORD=vscode
