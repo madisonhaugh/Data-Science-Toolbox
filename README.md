@@ -21,10 +21,6 @@ Instructions:
 5. (Optional) Enter the following command to remove any usused items and enhance the performance of the datascience toolbox.
 
 	    $ docker system prone
-	   
-6. Enter the following command in order to build the application from the Dockerfile and docker-compose file.
-
-	    $ docker-compose build
 	    
 6. Enter the following command in order to run the application.
 
