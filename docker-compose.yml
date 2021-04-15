@@ -7,7 +7,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - .:/code
+      - .:/data
     environment:
       FLASK_ENV: development
   
@@ -22,23 +22,13 @@ services:
   hadoop:
     image: "harisekhon/hadoop"
     container_name: hadoop
+    stdin_open: true
     ports:
-      - "2202:22"
-      - "2181:2181"
-      - "39534:39534"
-      - "9001:9000"
-      - "5070:5070"
-      - "5010:5010"
-      - "5020:5020"
-      - "8030:8030"
-      - "8031:8031"
-      - "8032:8032"
-      - "8033:8033"
-      - "8088:8088"
-      - "8040:8040"
+      - "8020:8020"
       - "8042:8042"
-      - "13562:13562"
-      - "47784:47784"
+      - "8088:8088"
+      - "9868:9868"
+      - "9870:9870"
       - "10020:10020"
       - "19888:19888"
 
@@ -50,11 +40,22 @@ services:
     environment:
       - PASSWORD=spyder
       
+  vs-code:
+    image: "codercom/code-server"
+    container_name: vs-code
+    ports:
+        - "8080:8080"
+    environment:
+      - PASSWORD=vscode
+      
   spark:
     image: "bitnami/spark"
     container_name: spark
+    stdin_open: true
     ports:
       - "8081:8081"
+    environment: 
+      - SPARK_MODE=master
       
   #ibm-sas:
     # using website
@@ -65,27 +66,29 @@ services:
   git:
     image: "madisonhaugh/git:git"
     container_name: git
+    stdin_open: true
     ports:
       - "3000:3000"
+    volumes:
+      - .:/data
    
   sonar-qube:
     image: "sonarqube"
     container_name: sonar-qube
+    stdin_open: true
     ports:
-      - "5008:5008"
-    networks:
-      - sonarnetwork
+      - "9000:9001"
+#    networks:
+#      - sonarnetwork
 
   sonar-scanner:
     image: "newtmitch/sonar-scanner"
-    restart: on-failure
-    volumes:
-      - ./sample:/usr/src
-    networks:
-      - sonarnetwork
+    stdin_open: true
+#    networks:
+#      - sonarnetwork
 
-  networks:
-    sonarnetwork:
+#  networks:
+#    sonarnetwork:
 
   jupyter:
     image: "jupyter/base-notebook"
@@ -93,7 +96,7 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - .:/code
+      - .:/data
     environment:
       - JUPYTER_TOKEN=jupyter
       
@@ -119,11 +122,3 @@ services:
     container_name: markdown
     ports:
       - "12345:80"
-      
-  vs-code:
-    image: "codercom/code-server"
-    container_name: vs-code
-    ports:
-        - "8080:8080"
-    environment:
-      - PASSWORD=vscode

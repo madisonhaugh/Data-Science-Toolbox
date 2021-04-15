@@ -13,7 +13,7 @@ def open_rstudio():
 
 @app.route('/hadoop')
 def open_hadoop():
-    return redirect("http://localhost:2202")
+    return redirect("http://localhost:8042/node")
 
 @app.route('/spyder')
 def open_spyder():
@@ -45,7 +45,7 @@ def open_jupyter():
 
 @app.route('/tensorflow')
 def open_tensorflow():
-    return redirect("http://localhost:8889/?token=tensorflow")
+    return redirect("http://localhost:8888/?token=tensorflow")
 
 @app.route('/orange')
 def open_orange():
